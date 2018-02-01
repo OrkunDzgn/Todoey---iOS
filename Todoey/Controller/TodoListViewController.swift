@@ -14,15 +14,31 @@ class TodoListViewController: UITableViewController {
 
     //We didn't add IBOutlet for ListView because our class is a sublass of UITableViewController
     
-    var itemArray = ["Learn iOS","Create CryptoTrackr iOS","Get rich"]
+    var itemArray = [Item]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let items = userDefaults.array(forKey: "TodoListArray") as? [String] {
-            itemArray = items
-        }
+        let newItem = Item()
+        newItem.title = "Learn iOS"
+        newItem.isDone = false
+        
+        let newItem2 = Item()
+        newItem2.title = "Learn iOS"
+        newItem2.isDone = false
+        
+        let newItem3 = Item()
+        newItem3.title = "Learn iOS"
+        newItem3.isDone = false
+        
+        itemArray.append(newItem)
+        itemArray.append(newItem2)
+        itemArray.append(newItem3)
+        
+        //if let items = userDefaults.array(forKey: "TodoListArray") as! [String] {
+        //    itemArray = items
+        //}
     }
     
     
@@ -31,7 +47,7 @@ class TodoListViewController: UITableViewController {
         
         let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
 
-        cell.textLabel?.text = itemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row].title
         
         return cell
     }
@@ -62,7 +78,11 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
-            self.itemArray.append(textField.text!)
+            
+            var newItem = Item()
+            newItem.title = textField.text!
+            
+            self.itemArray.append(newItem)
             
             self.userDefaults.set(self.itemArray, forKey: "TodoListArray")
             
